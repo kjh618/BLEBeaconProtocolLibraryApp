@@ -27,4 +27,8 @@ public enum StructTypes {
     public static StructTypes fromOrdinal(int ordinal) {
         return values[ordinal];
     }
+
+    public static StructTypes[] getValues() {
+        return values;
+    }
 }

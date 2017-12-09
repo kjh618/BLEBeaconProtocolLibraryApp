@@ -24,4 +24,8 @@ public enum PacketTypes {
     public static PacketTypes fromOrdinal(int ordinal) {
         return values[ordinal];
     }
+
+    public static PacketTypes[] getValues() {
+        return values;
+    }
 }
