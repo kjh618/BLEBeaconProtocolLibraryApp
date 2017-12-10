@@ -38,7 +38,13 @@ public class AdvertiseDataBuilder {
             }
         }
 
-        int part1 = 256 * rawBytes.get(1) + rawBytes.get(0);
+        int part1;
+        if(rawBytes.size() <= 1) {
+            part1 = rawBytes.get(0);
+        } else {
+            part1 = 256 * rawBytes.get(1) + rawBytes.get(0);
+        }
+
         byte[] part2 = new byte[rawBytes.size()-2];
         for(int i=0; i<part2.length; ++i) {
             part2[i] = rawBytes.get(i+2);
