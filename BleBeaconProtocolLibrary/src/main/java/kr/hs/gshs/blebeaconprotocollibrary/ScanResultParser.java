@@ -1,6 +1,7 @@
 package kr.hs.gshs.blebeaconprotocollibrary;
 
 import android.bluetooth.le.ScanResult;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -9,23 +10,29 @@ import java.util.ArrayList;
  */
 
 public class ScanResultParser {
+    private static final String TAG = ScanResultParser.class.getSimpleName();
+
     private ScanResultParser() {
     }
 
-    public static Object[] parse(ScanResult scanResult) {
-        Object[] ret = new Object[2];
+    public static PacketData parse(ScanResult scanResult) {
+        PacketData ret;
+
         byte[] rawBytes = new byte[26];
         System.arraycopy(scanResult.getScanRecord().getBytes(), 5, rawBytes, 0, 26);
 
-        try {
-            ret[0] = PacketTypes.fromOrdinal(rawBytes[0]);
+        PacketTypes packetType;
+        ArrayList<Struct> structs = new ArrayList<>();
 
-            ArrayList<Struct> structs = new ArrayList<>();
+        try {
+            packetType = PacketTypes.fromOrdinal(rawBytes[0]);
 
             for(int i=1; i<rawBytes.length; ++i) {
                 int structLength = rawBytes[i];
-                if(structLength <= 0)
+                if(structLength <= 0) {
                     break;
+                }
+                Log.d(TAG, "Parsing...: Current pos in rawBytes: " + i + ", Current structLength: " + structLength);
                 ++i;
 
                 StructTypes structType = StructTypes.fromOrdinal(rawBytes[i]);
@@ -36,14 +43,14 @@ public class ScanResultParser {
                 for (j=0; j<structLength-1; ++j) {
                     structData[j] = rawBytes[i+j];
                 }
-                i += j;
+                i += j - 1;
 
                 structs.add(new Struct(structType, new String(structData)));
             }
 
-            ret[1] = structs;
+            ret = new PacketData(true, packetType, structs);
         } catch (ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
-            ret[0] = ret[1] = null;
+            ret = new PacketData(false, null, null);
         }
 
         return ret;
