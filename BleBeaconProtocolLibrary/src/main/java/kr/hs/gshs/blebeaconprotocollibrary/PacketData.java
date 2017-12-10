@@ -28,4 +28,13 @@ public class PacketData {
     public ArrayList<Struct> getStructs() {
         return structs;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof PacketData))
+            return false;
+
+        PacketData p = (PacketData) obj;
+        return (isSupportedPacket == p.isSupportedPacket) && (packetType == p.packetType) && structs.equals(p.structs);
+    }
 }

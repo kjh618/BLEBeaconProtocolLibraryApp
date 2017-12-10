@@ -14,7 +14,7 @@ public class AdvertiseDataBuilder {
     }
 
     /**
-     * Returns an AdvertiseData object which includes the Service UUID and Device Name.
+     * Returns an AdvertiseData object.
      *
      * Note: There is a strict limit of 31 Bytes on packets sent over BLE Advertisements.
      *  This includes everything put into AdvertiseData including UUIDs, device info, &

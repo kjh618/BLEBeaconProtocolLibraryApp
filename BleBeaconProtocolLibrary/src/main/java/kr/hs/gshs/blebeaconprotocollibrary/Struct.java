@@ -29,6 +29,15 @@ public class Struct implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Struct))
+            return false;
+
+        Struct s = (Struct) obj;
+        return (type == s.type) && data.equals(s.data);
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
