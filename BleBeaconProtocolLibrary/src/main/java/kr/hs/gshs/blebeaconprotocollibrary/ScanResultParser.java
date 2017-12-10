@@ -29,9 +29,11 @@ public class ScanResultParser {
                 ++i;
 
                 byte[] structData = new byte[structLength-1];
-                for (int j=0; j<structLength-1; ++j) {
+                int j;
+                for (j=0; j<structLength-1; ++j) {
                     structData[j] = rawBytes[i+j];
                 }
+                i += j;
 
                 structs.add(new Struct(structType, new String(structData)));
             }
