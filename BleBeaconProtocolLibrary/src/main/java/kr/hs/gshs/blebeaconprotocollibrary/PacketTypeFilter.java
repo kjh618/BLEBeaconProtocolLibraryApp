@@ -4,7 +4,7 @@ package kr.hs.gshs.blebeaconprotocollibrary;
  * Created by kjh on 2017-12-10.
  */
 
-public class ScanFilter {
+public class PacketTypeFilter {
     private boolean[] isBlocked = new boolean[PacketTypes.getValues().length];
 
     public void block(PacketTypes packetType) {

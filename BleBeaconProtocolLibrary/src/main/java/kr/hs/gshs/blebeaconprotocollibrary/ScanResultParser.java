@@ -12,7 +12,7 @@ public class ScanResultParser {
     private ScanResultParser() {
     }
 
-    public Object[] parse(ScanResult scanResult) {
+    public static Object[] parse(ScanResult scanResult) {
         Object[] ret = new Object[2];
         byte[] rawBytes = scanResult.getScanRecord().getBytes();
 
@@ -29,7 +29,7 @@ public class ScanResultParser {
                 ++i;
 
                 byte[] structData = new byte[structLength-1];
-                for(int j=0; j<structLength-1; ++j) {
+                for (int j=0; j<structLength-1; ++j) {
                     structData[j] = rawBytes[i+j];
                 }
 
