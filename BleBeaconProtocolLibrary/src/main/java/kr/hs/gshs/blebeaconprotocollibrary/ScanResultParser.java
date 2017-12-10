@@ -14,7 +14,8 @@ public class ScanResultParser {
 
     public static Object[] parse(ScanResult scanResult) {
         Object[] ret = new Object[2];
-        byte[] rawBytes = scanResult.getScanRecord().getBytes();
+        byte[] rawBytes = new byte[26];
+        System.arraycopy(scanResult.getScanRecord().getBytes(), 5, rawBytes, 0, 26);
 
         try {
             ret[0] = PacketTypes.fromOrdinal(rawBytes[0]);
@@ -23,6 +24,8 @@ public class ScanResultParser {
 
             for(int i=1; i<rawBytes.length; ++i) {
                 int structLength = rawBytes[i];
+                if(structLength <= 0)
+                    break;
                 ++i;
 
                 StructTypes structType = StructTypes.fromOrdinal(rawBytes[i]);
@@ -39,7 +42,7 @@ public class ScanResultParser {
             }
 
             ret[1] = structs;
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | NegativeArraySizeException e) {
             ret[0] = ret[1] = null;
         }
 
